@@ -1,22 +1,26 @@
+import { graphQLrequest } from "./request";
+
 export const foldersLoader = async () => {
   const query = `query Query {
           folders {
             id,
             name,
-            author {
-              id,
-              name
-            }
+            createAt
           }
         }`;
-  const res = await fetch("http://localhost:4000/graphql", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({ query }),
-  });
-  const data = await res.json();
+  const data = await graphQLrequest({query})      
   return data;
 };
+
+export const addNewFolder = async (newFolder) => {
+ const query = `mutation Mutation($name: String!) {
+  addFolder(name: $name) {
+    name
+    author {
+      name
+    }
+  }
+}`;
+ const data = await graphQLrequest({query,variables:{name:newFolder.name}})
+ return data;
+}

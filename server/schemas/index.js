@@ -1,18 +1,23 @@
 export const typeDefs = `#graphql
+scalar Date
 type Folder {
-    id: String,
+    id: String!,
     name: String,
     createAt: String,
     author: Author,
     notes: [Note]
 }
 type Author {
-    id: String,
-    name: String
+    uid:String!,
+    name: String!
 }
 type Note {
-  id: String,
-  content: String
+  id: String!,
+  content: String,
+  updatedAt: Date
+}
+type Message {
+  message:String
 }
 type Query {
   folders: [Folder],
@@ -21,5 +26,13 @@ type Query {
 }
 type Mutation {
   addFolder(name:String!): Folder
+  addNote(content:String,folderId:String!): Note
+  updateNote(id:String!,content:String): Note
+  register(uid: String!, name: String!): Author
+  pushNotification(content:String):Message
+}
+type Subscription {
+  folderCreated: Message
+  notification: Message
 }
 `;

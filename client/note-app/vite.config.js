@@ -10,6 +10,6 @@ export default defineConfig({
     host: true
   },
   define:{
-    global:{}
+    global: 'window'
   }
 })
